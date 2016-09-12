@@ -16,4 +16,12 @@
         android:text="Bin Search"
         android:id="@+id/textView2"
         android:layout_centerHorizontal="true" />
+
+    <SearchView
+        android:layout_width="150"
+        android:layout_height="30"
+        android:id="@+id/searchView"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2" />
 </RelativeLayout>
