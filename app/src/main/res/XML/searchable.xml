@@ -1,0 +1,5 @@
+
+<searchable
+    android:label="@string/binSearch"
+    android:hint="@string/search_hint"
+    />
