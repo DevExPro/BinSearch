@@ -18,10 +18,9 @@
         android:layout_centerHorizontal="true" />
 
     <SearchView
-        android:layout_width="150"
-        android:layout_height="30"
+        android:layout_width="560px"
+        android:layout_height="70px"
         android:id="@+id/searchView"
         android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
