@@ -5,6 +5,7 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
+
         applicationId "com.binsearch.binsearch"
         minSdkVersion 15
         targetSdkVersion 24
@@ -24,3 +25,4 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.0'
 }
+apply plugin: 'com.google.gms.google-services'
