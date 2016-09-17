@@ -1,9 +1,9 @@
 package com.binsearch.binsearch;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-public class SearchableActivity extends AppCompatActivity {
+public class SearchResult extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
