@@ -18,8 +18,8 @@
         android:layout_centerHorizontal="true" />
 
     <SearchView
-        android:layout_width="560px"
-        android:layout_height="70px"
+        android:layout_width="560dp"
+        android:layout_height="70dp"
         android:id="@+id/searchView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
