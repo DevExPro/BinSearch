@@ -13,8 +13,6 @@ public class SearchResult extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
-        Toast.makeText(getApplicationContext(), "Reached the SearchResult class", Toast.LENGTH_LONG).show();
-
         Intent gatheredIntent = getIntent(); // Get the intent that was passed into the activity
         String [] searchReceived = gatheredIntent.getStringArrayExtra("foundItem"); // Take the array of item info out of the intent
 
