@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +26,22 @@ public class MainActivity extends AppCompatActivity {
         searchField.setOnQueryTextListener( new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+                mRef = new Firebase("https://bin-search.firebaseio.com/");
+                mRef.child(query).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Object foundStuff = dataSnapshot.getValue();
+                        System.out.println(foundStuff);
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+                        System.out.println("Failureeeeeee");
+                    }
+                });
+
+
                 Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // This intent will be used to start the next activity
               //  Intent resultsScreen = new Intent();
                 String [] toSend = new String[3];
@@ -37,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Toast.makeText(getApplicationContext(), "Changed Text", Toast.LENGTH_LONG).show();
+           //     Toast.makeText(getApplicationContext(), "Changed Text", Toast.LENGTH_LONG).show();
                 return false;
             }
             });
@@ -45,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        mRef = new Firebase("https://bin-search.firebaseio.com/");
 
         handleIntent(getIntent());
     }
