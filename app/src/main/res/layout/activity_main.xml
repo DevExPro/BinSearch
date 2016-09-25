@@ -12,15 +12,55 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Bin Search"
-        android:id="@+id/Bin"
+        android:id="@+id/errorMessage"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_below="@+id/searchView"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/Bin"
+        android:text="Bin Search"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp" />
 
     <SearchView
         android:layout_width="560dp"
         android:layout_height="70dp"
         android:id="@+id/searchView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="52dp"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:inputType="textAutoComplete|textAutoCorrect"/>
+
+    <TextView
+        android:text="@string/searchMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginEnd="26dp"
+        android:layout_below="@+id/Bin"
+        android:layout_toLeftOf="@+id/searchOptions"
+        android:layout_toStartOf="@+id/searchOptions" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchOptions"
+        android:dropDownWidth="match_parent"
+        android:entries="@array/searchOptions"
+        android:spinnerMode="dropdown"
+        android:layout_marginRight="34dp"
+        android:layout_marginEnd="34dp"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
