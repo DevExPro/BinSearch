@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
         searchField.setIconifiedByDefault(false);
         searchField.setQueryHint("Item number or location");
         textView = (TextView)findViewById(R.id.errorMessage);
-
-
 
                 Spinner searchOption = (Spinner) findViewById(R.id.searchOptions);
         searchOption.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
