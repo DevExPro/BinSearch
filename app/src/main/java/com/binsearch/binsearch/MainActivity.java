@@ -1,8 +1,11 @@
 package com.binsearch.binsearch;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +29,25 @@ public class MainActivity extends AppCompatActivity {
     String userSearch;
     TextView textView;
     int searchType = 0;
+    String [] searchReceived;
+    static final int PICK_CONTACT_REQUEST = 1;
+    String [] oldInfo = new String [3];
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent resultsScreen) {
+        if(requestCode == PICK_CONTACT_REQUEST)
+            if(resultCode ==RESULT_OK) {
+                String [] received = new String [3];
+                received[0] = "bla";
+                received[1] = "cha";
+                received[2] = "dha";
+                received = resultsScreen.getStringArrayExtra("sentItem");
+               // mRef.child(oldInfo[0]).setValue(received[0]);
+                System.out.println("Main got: " + received[0] + ", " + received[1] + ", and " + received[2]);
+           //     mRef.child(oldInfo[0]).child("bin").setValue(received[1]);
+            //    mRef.child(oldInfo[0]).child("description").setValue(received[2]);
+            }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +79,15 @@ public class MainActivity extends AppCompatActivity {
                 mRef = new Firebase("https://bin-search.firebaseio.com/");
 
 
+                ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+                if (mWifi.isConnected() == false) {
+                    textView.setText("Please connect to internet");
+                    textView.setTextColor(Color.RED);
+                }
+
+
                 if(searchType == 0) {
 
 
@@ -70,13 +100,18 @@ public class MainActivity extends AppCompatActivity {
                                 textView.setText("");
                                 Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // This intent will be used to start the next activity
                                 //  Intent resultsScreen = new Intent();
-                                String[] toSend = new String[3];
                                 // For now these are just set to display the query - Will change later to the retrieved data once we find a way to retrieve it
+                                String [] toSend = new String [3];
                                 toSend[0] = foundStuff.getKey(); // Will hold the Number
                                 toSend[1] = foundStuff.getBin(); // Will hold the Location
                                 toSend[2] = foundStuff.getDescription(); // Will hold the description
+                                oldInfo[0] = toSend[0];
+                                oldInfo[1] = toSend[1];
+                                oldInfo[2] = toSend[2];
                                 resultsScreen.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the next activity
-                                startActivity(resultsScreen); // Start the next activity
+                                //startActivity(resultsScreen); // Start the next activity
+
+                                startActivityForResult(resultsScreen, 1);
                             } else {
                                 textView.setText("Item number '" + userSearch + "' does not exist.");
                                 textView.setTextColor(Color.RED);
@@ -109,13 +144,16 @@ public class MainActivity extends AppCompatActivity {
                                     textView.setText("");
                                     Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // This intent will be used to start the next activity
                                     //  Intent resultsScreen = new Intent();
-                                    String[] toSend = new String[3];
                                     // For now these are just set to display the query - Will change later to the retrieved data once we find a way to retrieve it
+                                    String [] toSend = new String [3];
                                     toSend[0] = foundStuff.getKey(); // Will hold the Number
                                     toSend[1] = foundStuff.getBin(); // Will hold the Location
                                     toSend[2] = foundStuff.getDescription(); // Will hold the description
+                                    oldInfo[0] = toSend[0];
+                                    oldInfo[1] = toSend[1];
+                                    oldInfo[2] = toSend[2];
                                     resultsScreen.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the next activity
-                                    startActivity(resultsScreen); // Start the next activity
+                                    startActivityForResult(resultsScreen, 1);
                                     foundLocation = 1;
                                 }
                             }

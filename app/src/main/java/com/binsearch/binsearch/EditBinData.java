@@ -9,13 +9,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class EditBinData extends AppCompatActivity {
+    String [] searchReceived;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_edit);
 
         Intent gatheredIntent = getIntent(); // Get the intent that was passed into the activity
-        String [] searchReceived = gatheredIntent.getStringArrayExtra("foundItem"); // Take the array of item info out of the intent
+        searchReceived = gatheredIntent.getStringArrayExtra("foundItem"); // Take the array of item info out of the intent
 
         // Set connection to TextViews that will hold the received information
         EditText itemNum = (EditText)findViewById(R.id.NumberVal);
@@ -32,7 +34,15 @@ public class EditBinData extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                
+                Intent gatheredIntent = getIntent();
+                String[] toSend = new String[3];
+                // For now these are just set to display the query - Will change later to the retrieved data once we find a way to retrieve it
+                toSend[0] = searchReceived[0];
+                toSend[1] = searchReceived[1];
+                toSend[2] = searchReceived[2];
+                gatheredIntent.putExtra("sentItem", toSend); // Store the array of strings in the intent that gets passed to the next activity
+                setResult(RESULT_OK, gatheredIntent);
+                finish();
             }
     });
 }}

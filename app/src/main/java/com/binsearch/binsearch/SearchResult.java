@@ -11,6 +11,26 @@ import android.widget.Toast;
 public class SearchResult extends AppCompatActivity {
 
     String [] searchReceived;
+    String [] newSearchReceived;
+
+    static final int PICK_CONTACT_REQUEST = 1;
+    String [] received = new String[3];
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent resultsScreen) {
+        System.out.println("Gotcha");
+        received[0] = "bla";
+        received[1] = "cha";
+        received[2] = "dha";
+        if(requestCode == PICK_CONTACT_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                {
+                    received = resultsScreen.getStringArrayExtra("sentItem");
+                    System.out.println("Got: " + received[0] + ", " + received[1] + ", and " + received[2]);
+                }
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +62,13 @@ public class SearchResult extends AppCompatActivity {
                 toSend[1] = searchReceived[1];
                 toSend[2] = searchReceived[2];
                 resultsScreen.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the next activity
-                startActivity(resultsScreen); // Start the next activity
+                //startActivity(resultsScreen); // Start the next activity
+
+                startActivityForResult(resultsScreen, 1);
+
+                Intent gatheredIntent = getIntent(); // Get the intent that was passed into the activity
+                setResult(RESULT_OK, gatheredIntent);
+                finish();
             }
         });
     }
