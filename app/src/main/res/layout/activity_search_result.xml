@@ -76,7 +76,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/DescriptionVal"
         android:layout_alignBottom="@+id/descriptionLabel"
-        android:layout_centerHorizontal="true" />
+        android:layout_toRightOf="@+id/descriptionLabel"
+        android:layout_toEndOf="@+id/descriptionLabel" />
 
     <Button
         android:text="Edit"
