@@ -22,4 +22,22 @@ public class BinData {
     public void setKey(String toSet) {
         key = toSet;
     }
+
+    public void setBin(String toSet) {
+        if(bin == null){
+            bin = toSet;
+        }
+        else{
+            bin = toSet;
+        }
+    }
+
+    public void setDescription(String toSet) {
+        if(description == null){
+            description = new String(toSet);
+        }
+        else{
+            description = toSet;
+        }
+    }
 }

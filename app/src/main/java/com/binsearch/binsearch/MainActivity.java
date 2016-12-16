@@ -90,8 +90,17 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.getValue() != null) {
-                                foundStuff = dataSnapshot.getValue(BinData.class);
+                                if(dataSnapshot.hasChild(userSearch)){
+                                    foundStuff = dataSnapshot.getValue(BinData.class);
+                                }
+                                else{
+                                    foundStuff = new BinData();
+                                    foundStuff.setBin("No Bin Location");
+                                    foundStuff.setDescription("No Description");
+                                }
+
                                 foundStuff.setKey(dataSnapshot.getKey());
+
                                 textView.setText("");
                                 Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // This intent will be used to start the next activity
                                 //  Intent resultsScreen = new Intent();
@@ -192,6 +201,15 @@ public class MainActivity extends AppCompatActivity {
         if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
 
+        }
+    }
+
+    private boolean onDataChange(DataSnapshot snapshot){
+        if(snapshot.hasChild(userSearch)){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
