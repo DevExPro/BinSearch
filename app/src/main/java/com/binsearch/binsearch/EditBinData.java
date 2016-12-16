@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 public class EditBinData extends AppCompatActivity {
     String [] searchReceived;
-
+    EditText itemNum;
+    EditText itemLocate;
+    EditText itemDescript;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,9 +22,9 @@ public class EditBinData extends AppCompatActivity {
         searchReceived = gatheredIntent.getStringArrayExtra("foundItem"); // Take the array of item info out of the intent
 
         // Set connection to TextViews that will hold the received information
-        EditText itemNum = (EditText)findViewById(R.id.NumberVal);
-        EditText itemLocate = (EditText)findViewById(R.id.LocationVal);
-        EditText itemDescript = (EditText)findViewById(R.id.DescriptionVal);
+        itemNum = (EditText)findViewById(R.id.NumberVal);
+        itemLocate = (EditText)findViewById(R.id.LocationVal);
+        itemDescript = (EditText)findViewById(R.id.DescriptionVal);
 
         // Set the TextViews to to the received information
         itemNum.setText(searchReceived[0]);
@@ -35,12 +37,13 @@ public class EditBinData extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent gatheredIntent = getIntent();
-                String[] toSend = new String[3];
                 // For now these are just set to display the query - Will change later to the retrieved data once we find a way to retrieve it
-                toSend[0] = searchReceived[0];
-                toSend[1] = searchReceived[1];
-                toSend[2] = searchReceived[2];
-                gatheredIntent.putExtra("sentItem", toSend); // Store the array of strings in the intent that gets passed to the next activity
+
+                String[] toSend = new String[3];
+                toSend[0] = itemNum.getText().toString();
+                toSend[1] = itemLocate.getText().toString();
+                toSend[2] = itemDescript.getText().toString();
+                gatheredIntent.putExtra("newInfo", toSend); // Store the array of strings in the intent that gets passed to the next activity
                 setResult(RESULT_OK, gatheredIntent);
                 finish();
             }

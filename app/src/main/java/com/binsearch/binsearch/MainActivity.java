@@ -37,15 +37,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent resultsScreen) {
         if(requestCode == PICK_CONTACT_REQUEST)
             if(resultCode ==RESULT_OK) {
-                String [] received = new String [3];
-                received[0] = "bla";
-                received[1] = "cha";
-                received[2] = "dha";
-                received = resultsScreen.getStringArrayExtra("sentItem");
+                String [] received = resultsScreen.getStringArrayExtra("newInfo");
                // mRef.child(oldInfo[0]).setValue(received[0]);
-                System.out.println("Main got: " + received[0] + ", " + received[1] + ", and " + received[2]);
-           //     mRef.child(oldInfo[0]).child("bin").setValue(received[1]);
-            //    mRef.child(oldInfo[0]).child("description").setValue(received[2]);
+                mRef.child(oldInfo[0]).child("bin").setValue(received[1]);
+                mRef.child(oldInfo[0]).child("description").setValue(received[2]);
             }
     }
 

@@ -18,15 +18,13 @@ public class SearchResult extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent resultsScreen) {
-        System.out.println("Gotcha");
-        received[0] = "bla";
-        received[1] = "cha";
-        received[2] = "dha";
         if(requestCode == PICK_CONTACT_REQUEST) {
             if (resultCode == RESULT_OK) {
                 {
-                    received = resultsScreen.getStringArrayExtra("sentItem");
-                    System.out.println("Got: " + received[0] + ", " + received[1] + ", and " + received[2]);
+                    received = resultsScreen.getStringArrayExtra("newInfo");
+                    resultsScreen.putExtra("newInfo", received);
+                    setResult(RESULT_OK, resultsScreen);
+                    finish();
                 }
             }
         }
@@ -64,11 +62,8 @@ public class SearchResult extends AppCompatActivity {
                 resultsScreen.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the next activity
                 //startActivity(resultsScreen); // Start the next activity
 
+                System.out.println("oneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
                 startActivityForResult(resultsScreen, 1);
-
-                Intent gatheredIntent = getIntent(); // Get the intent that was passed into the activity
-                setResult(RESULT_OK, gatheredIntent);
-                finish();
             }
         });
     }
