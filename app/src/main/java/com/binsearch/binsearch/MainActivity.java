@@ -24,7 +24,7 @@ import com.firebase.client.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    Firebase mRef;
+    Firebase mRef = new Firebase("https://bin-search.firebaseio.com/");
     BinData foundStuff;
     String userSearch;
     TextView textView;
@@ -38,11 +38,23 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == PICK_CONTACT_REQUEST)
             if(resultCode ==RESULT_OK) {
                 String [] received = resultsScreen.getStringArrayExtra("newInfo");
-          //      mRef.child(toSend[0]).child("bin").removeValue();
-          //      mRef.child(toSend[0]).child("description").removeValue();
-                mRef.child(toSend[0]).removeValue();
-                mRef.child(received[0]).child("bin").setValue(received[1]);
-                mRef.child(received[0]).child("description").setValue(received[2]);
+                    if(received[0].equals(null) == false && received[0].equals("") == false) {
+                        if(toSend[0].equals("") == false) {
+                            if (toSend[0].equals(null) == false && toSend[0].equals(received[0]) == false)
+                                mRef.child(toSend[0]).removeValue();
+                            if (received[1].equals(null) == false && received[1].equals("") == false)
+                                mRef.child(received[0]).child("bin").setValue(received[1]);
+                            if (received[2].equals(null) == false && received[2].equals("") == false)
+                                mRef.child(received[0]).child("description").setValue(received[2]);
+                        }
+                        else
+                        {
+                            if (received[1].equals(null) == false && received[1].equals("") == false)
+                                mRef.child(received[0]).child("bin").setValue(received[1]);
+                            if (received[2].equals(null) == false && received[2].equals("") == false)
+                                mRef.child(received[0]).child("description").setValue(received[2]);
+                        }
+                 }
             }
     }
 
@@ -62,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent gatheredIntent = new Intent(getApplicationContext(), EditBinData.class);
+                toSend[0] = "";
+                toSend[1] = "";
+                toSend[2] = "";
                 gatheredIntent.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the next activity
                 //startActivity(resultsScreen); // Start the next activity
 
@@ -86,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 userSearch = query;
-                mRef = new Firebase("https://bin-search.firebaseio.com/");
+               // mRef = new Firebase("https://bin-search.firebaseio.com/");
 
 
                 ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
