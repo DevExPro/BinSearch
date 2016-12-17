@@ -54,15 +54,8 @@ public class SearchResult extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent resultsScreen = new Intent(getApplicationContext(), EditBinData.class);
-                String[] toSend = new String[3];
-                // For now these are just set to display the query - Will change later to the retrieved data once we find a way to retrieve it
-                toSend[0] = searchReceived[0];
-                toSend[1] = searchReceived[1];
-                toSend[2] = searchReceived[2];
-                resultsScreen.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the next activity
+                resultsScreen.putExtra("foundItem", searchReceived); // Store the array of strings in the intent that gets passed to the next activity
                 //startActivity(resultsScreen); // Start the next activity
-
-                System.out.println("oneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
                 startActivityForResult(resultsScreen, 1);
             }
         });

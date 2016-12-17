@@ -60,7 +60,8 @@
         android:id="@+id/NumberVal"
         android:layout_alignBottom="@+id/numberLabel"
         android:layout_toRightOf="@+id/numberLabel"
-        android:layout_toEndOf="@+id/numberLabel" />
+        android:layout_toEndOf="@+id/numberLabel"
+        android:maxLines="1"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -70,7 +71,8 @@
         android:id="@+id/LocationVal"
         android:layout_alignBottom="@+id/locationLabel"
         android:layout_toRightOf="@+id/locationLabel"
-        android:layout_toEndOf="@+id/locationLabel" />
+        android:layout_toEndOf="@+id/locationLabel"
+        android:maxLines="1"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -81,8 +83,8 @@
         android:layout_toRightOf="@+id/descriptionLabel"
         android:layout_toEndOf="@+id/descriptionLabel"
         android:layout_alignBottom="@+id/descriptionLabel"
-        android:layout_centerHorizontal="true" />
-
+        android:layout_centerHorizontal="true"
+        android:maxLines="1"/>
     <Button
         android:text="Save"
         android:layout_width="wrap_content"
