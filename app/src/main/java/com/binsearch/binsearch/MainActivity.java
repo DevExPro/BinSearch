@@ -107,6 +107,12 @@ public class MainActivity extends AppCompatActivity {
                                     foundStuff.setBin("No Bin Location");
                                     foundStuff.setDescription(dataSnapshot.child("description").getValue(String.class));
                                 }
+                                else
+                                {
+                                    foundStuff = new BinData();
+                                    foundStuff.setBin("No Bin Location");
+                                    foundStuff.setDescription("No Description");
+                                }
 
                                 foundStuff.setKey(dataSnapshot.getKey());
 
