@@ -31,16 +31,18 @@ public class MainActivity extends AppCompatActivity {
     int searchType = 0;
     String [] searchReceived;
     static final int PICK_CONTACT_REQUEST = 1;
-    String [] oldInfo = new String [3];
+    String[] toSend = new String[3];
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent resultsScreen) {
         if(requestCode == PICK_CONTACT_REQUEST)
             if(resultCode ==RESULT_OK) {
                 String [] received = resultsScreen.getStringArrayExtra("newInfo");
-               // mRef.child(oldInfo[0]).setValue(received[0]);
-                mRef.child(oldInfo[0]).child("bin").setValue(received[1]);
-                mRef.child(oldInfo[0]).child("description").setValue(received[2]);
+          //      mRef.child(toSend[0]).child("bin").removeValue();
+          //      mRef.child(toSend[0]).child("description").removeValue();
+                mRef.child(toSend[0]).removeValue();
+                mRef.child(received[0]).child("bin").setValue(received[1]);
+                mRef.child(received[0]).child("description").setValue(received[2]);
             }
     }
 
@@ -90,13 +92,20 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.getValue() != null) {
-                                if(dataSnapshot.hasChild(userSearch)){
+                                if(dataSnapshot.hasChild("bin") && dataSnapshot.hasChild("description")){
                                     foundStuff = dataSnapshot.getValue(BinData.class);
                                 }
-                                else{
+                                else if (dataSnapshot.hasChild("bin"))
+                                {
+                                    foundStuff = new BinData();
+                                    foundStuff.setBin(dataSnapshot.child("bin").getValue(String.class));
+                                    foundStuff.setDescription("No Description");
+                                }
+                                else if( dataSnapshot.hasChild("description"))
+                                {
                                     foundStuff = new BinData();
                                     foundStuff.setBin("No Bin Location");
-                                    foundStuff.setDescription("No Description");
+                                    foundStuff.setDescription(dataSnapshot.child("description").getValue(String.class));
                                 }
 
                                 foundStuff.setKey(dataSnapshot.getKey());
@@ -105,13 +114,9 @@ public class MainActivity extends AppCompatActivity {
                                 Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // This intent will be used to start the next activity
                                 //  Intent resultsScreen = new Intent();
                                 // For now these are just set to display the query - Will change later to the retrieved data once we find a way to retrieve it
-                                String [] toSend = new String [3];
                                 toSend[0] = foundStuff.getKey(); // Will hold the Number
                                 toSend[1] = foundStuff.getBin(); // Will hold the Location
                                 toSend[2] = foundStuff.getDescription(); // Will hold the description
-                                oldInfo[0] = toSend[0];
-                                oldInfo[1] = toSend[1];
-                                oldInfo[2] = toSend[2];
                                 resultsScreen.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the next activity
                                 //startActivity(resultsScreen); // Start the next activity
 
@@ -141,24 +146,28 @@ public class MainActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             int foundLocation = 0;
                             for(DataSnapshot child : dataSnapshot.getChildren()) {
-                                System.out.println("Comparing " + child.child("bin").getValue(String.class) + " and " + userSearch);
-                                if(child.child("bin").getValue(String.class).equals(userSearch)) {
-                                    foundStuff = child.getValue(BinData.class);
-                                    foundStuff.setKey(child.getKey());
-                                    textView.setText("");
-                                    Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // This intent will be used to start the next activity
-                                    //  Intent resultsScreen = new Intent();
-                                    // For now these are just set to display the query - Will change later to the retrieved data once we find a way to retrieve it
-                                    String [] toSend = new String [3];
-                                    toSend[0] = foundStuff.getKey(); // Will hold the Number
-                                    toSend[1] = foundStuff.getBin(); // Will hold the Location
-                                    toSend[2] = foundStuff.getDescription(); // Will hold the description
-                                    oldInfo[0] = toSend[0];
-                                    oldInfo[1] = toSend[1];
-                                    oldInfo[2] = toSend[2];
-                                    resultsScreen.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the next activity
-                                    startActivityForResult(resultsScreen, 1);
-                                    foundLocation = 1;
+                                if(child.hasChild("bin")) {
+                                    if (child.child("bin").getValue(String.class).equals(userSearch)) {
+                                        if(child.hasChild("description") == false) {
+                                            foundStuff = new BinData();
+                                            foundStuff.setDescription("No Description");
+                                            foundStuff.setBin(child.child("bin").getValue(String.class));
+                                        }
+                                        else {
+                                            foundStuff = child.getValue(BinData.class);
+                                        }
+                                        foundStuff.setKey(child.getKey());
+                                        textView.setText("");
+                                        Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // This intent will be used to start the next activity
+                                        //  Intent resultsScreen = new Intent();
+                                        // For now these are just set to display the query - Will change later to the retrieved data once we find a way to retrieve it
+                                        toSend[0] = foundStuff.getKey(); // Will hold the Number
+                                        toSend[1] = foundStuff.getBin(); // Will hold the Location
+                                        toSend[2] = foundStuff.getDescription(); // Will hold the description
+                                        resultsScreen.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the next activity
+                                        startActivityForResult(resultsScreen, 1);
+                                        foundLocation = 1;
+                                    }
                                 }
                             }
                             if(foundLocation == 0)
