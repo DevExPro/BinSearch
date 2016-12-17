@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
     String userSearch;
     TextView textView;
     int searchType = 0;
-    String [] searchReceived;
     static final int PICK_CONTACT_REQUEST = 1;
     String[] toSend = new String[3];
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent resultsScreen) {
@@ -48,15 +48,28 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         SearchView searchField = (SearchView)findViewById(R.id.searchView);
         searchField.setIconifiedByDefault(false);
         searchField.setQueryHint("Item number or location");
         textView = (TextView)findViewById(R.id.errorMessage);
 
-                Spinner searchOption = (Spinner) findViewById(R.id.searchOptions);
+        Button newBinButton = (Button)findViewById(R.id.newBin);
+        newBinButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent gatheredIntent = new Intent(getApplicationContext(), EditBinData.class);
+                gatheredIntent.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the next activity
+                //startActivity(resultsScreen); // Start the next activity
+
+                startActivityForResult(gatheredIntent, 1);
+            }
+        });
+
+        Spinner searchOption = (Spinner) findViewById(R.id.searchOptions);
         searchOption.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -200,6 +213,8 @@ public class MainActivity extends AppCompatActivity {
             }
             });
     }
+
+
     @Override
     protected void onStart(){
         super.onStart();
