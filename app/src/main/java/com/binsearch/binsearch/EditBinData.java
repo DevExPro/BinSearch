@@ -1,6 +1,7 @@
 package com.binsearch.binsearch;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -31,21 +32,39 @@ public class EditBinData extends AppCompatActivity {
         itemLocate.setText(searchReceived[1]);
         itemDescript.setText(searchReceived[2]);
 
+        itemNum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View view) {
+                if(itemNum.getText().toString().equals("This field is required"))
+                {
+                    itemNum.setText("");
+                }
+            }
+        });
+
         Button editReceived = (Button)findViewById(R.id.saveInfo);
         editReceived.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                Intent gatheredIntent = getIntent();
-                // For now these are just set to display the query - Will change later to the retrieved data once we find a way to retrieve it
+                if(itemNum.getText().toString().equals(null)|| itemNum.getText().toString().equals("") || itemNum.getText().toString().equals("This field is required"))
+                {
+                    System.out.println("Setting the required stuff");
+                    itemNum.setText("This field is required");
+                    itemNum.setTextColor(Color.RED);
+                }
+                else {
+                    Intent gatheredIntent = getIntent();
+                    // For now these are just set to display the query - Will change later to the retrieved data once we find a way to retrieve it
 
-                String[] toSend = new String[3];
-                toSend[0] = itemNum.getText().toString();
-                toSend[1] = itemLocate.getText().toString();
-                toSend[2] = itemDescript.getText().toString();
-                gatheredIntent.putExtra("newInfo", toSend); // Store the array of strings in the intent that gets passed to the next activity
-                setResult(RESULT_OK, gatheredIntent);
-                finish();
+                    String[] toSend = new String[3];
+                    toSend[0] = itemNum.getText().toString();
+                    toSend[1] = itemLocate.getText().toString();
+                    toSend[2] = itemDescript.getText().toString();
+                    gatheredIntent.putExtra("newInfo", toSend); // Store the array of strings in the intent that gets passed to the next activity
+                    setResult(RESULT_OK, gatheredIntent);
+                    finish();
+                }
             }
     });
 }}
