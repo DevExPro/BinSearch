@@ -61,6 +61,7 @@
         android:layout_alignBottom="@+id/numberLabel"
         android:layout_toRightOf="@+id/numberLabel"
         android:layout_toEndOf="@+id/numberLabel"
+        android:lines="1"
         android:maxLines="1"/>
 
     <EditText
@@ -72,6 +73,7 @@
         android:layout_alignBottom="@+id/locationLabel"
         android:layout_toRightOf="@+id/locationLabel"
         android:layout_toEndOf="@+id/locationLabel"
+        android:lines="1"
         android:maxLines="1"/>
 
     <EditText
@@ -84,6 +86,7 @@
         android:layout_toEndOf="@+id/descriptionLabel"
         android:layout_alignBottom="@+id/descriptionLabel"
         android:layout_centerHorizontal="true"
+        android:lines="1"
         android:maxLines="1"/>
     <Button
         android:text="Save"
@@ -93,4 +96,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="53dp"
         android:id="@+id/saveInfo" />
+
+    <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/DescriptionVal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:id="@+id/warning" />
 </RelativeLayout>

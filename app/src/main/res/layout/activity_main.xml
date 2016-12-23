@@ -17,28 +17,43 @@
         android:layout_below="@+id/searchView"
         android:layout_centerHorizontal="true" />
 
-    <TextView
+    <Button
+        android:text="New Bin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/Bin"
-        android:text="Bin Search"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp" />
+        android:layout_marginTop="13dp"
+        android:id="@+id/newBin"
+        android:layout_alignTop="@+id/Bin"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="14dp"
+        android:layout_marginEnd="14dp" />
 
-    <TextView
-        android:text="@string/searchMessage"
-        android:layout_width="wrap_content"
+    <Button
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="26dp"
-        android:layout_marginEnd="26dp"
-        android:layout_below="@+id/Bin"
-        android:layout_toLeftOf="@+id/searchOptions"
-        android:layout_toStartOf="@+id/searchOptions" />
+        android:id="@+id/result1"
+        android:layout_below="@+id/errorMessage"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:visibility="invisible" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/result2"
+        android:layout_below="@+id/result1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:visibility="invisible" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/result3"
+        android:layout_below="@+id/result2"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -47,30 +62,27 @@
         android:dropDownWidth="match_parent"
         android:entries="@array/searchOptions"
         android:spinnerMode="dropdown"
-        android:layout_marginRight="34dp"
-        android:layout_marginEnd="34dp"
         android:layout_alignTop="@+id/textView2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_centerHorizontal="true" />
 
     <SearchView
         android:layout_width="560dp"
         android:layout_height="70dp"
         android:id="@+id/searchView"
-        android:layout_marginTop="49dp"
         android:inputType="textAutoComplete|textAutoCorrect"
-        android:layout_below="@+id/searchOptions"
+        android:layout_below="@+id/textView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:text="New Bin"
+    <TextView
+        android:text="@string/searchMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/errorMessage"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="79dp"
-        android:id="@+id/newBin" />
+        android:id="@+id/textView2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_alignTop="@+id/newBin"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>
