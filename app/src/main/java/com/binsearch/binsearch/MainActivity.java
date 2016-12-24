@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     String[] toSend = new String[3]; // Array of strings that will hold the values of data attained from firebase to send to SearchResult of EditBinData activities
     int callActivity = 0; // 0 means that no matching data has been found, 1 means that a match HAS been found
     int displayMessage = 0; // 0 means that no alertDialog should be displayed, 1 means that alertDialog needs to be displayed
+    android.content.Context accessThis = this;
 
     /* Purpose: This Class is used as the main activity for the app. It gives users the option to search for bin information that exists in the firebase (by either
      * bin number or bin location), add a new bin to the firebase database. It will search the firebase depending on which piece of information the user wants,
@@ -42,66 +43,66 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent resultsScreen) { // This function is called implicitly upon returning from the SearchResult or
-        if(requestCode == PICK_CONTACT_REQUEST)                                              // EditBinData activities with return values
-            if(resultCode ==RESULT_OK) {
-                final String [] received = resultsScreen.getStringArrayExtra("newInfo"); // Extract the array of strings(the information to be put in firebase) from the returned intent
-                    if(!received[0].equals(null) && !received[0].equals("")) { // If there is a key to the new data
-                        if(!received[0].equals(toSend[0])) { // If the child exists and it is not the same key that it started with
-                            mRef.child(received[0]).addValueEventListener(new ValueEventListener() { // Look for the key in firebase
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    if (dataSnapshot.getValue() != null) { // If that key already exists in firebase, report that an alert should be displayed
-                                        System.out.println("IT EXISTSSSSSSSSSSSSSSSSSSSSSSSSS");
-                                        displayMessage = 1;
-                                    }
-                                    else // Otherwise, create the new data in firebase
-                                    {
-                                        mRef.child(received[0]).setValue("");
-                                        if (!received[1].equals(null) && !received[1].equals(""))
-                                            mRef.child(received[0]).child("bin").setValue(received[1]);
-                                        if (!received[2].equals(null) && !received[2].equals(""))
-                                            mRef.child(received[0]).child("description").setValue(received[2]);
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(FirebaseError firebaseError) {}});
-                        }
-                        else // If creating new data or editing same data
-                        {
-                            if(received[0].equals(toSend[0])) // If the data exists and is being edited
-                                mRef.child(toSend[0]).removeValue(); // Remove data under the original key from firebase
-                            mRef.child(received[0]).setValue(""); // Create the key and set it to be empty
-                            if(!received[1].equals(null) && !received[1].equals("")) // If the bin field is not empty, set the bin for the key in firebase
-                                mRef.child(received[0]).child("bin").setValue(received[1]);
-                            if(!received[2].equals(null) && !received[2].equals("")) // If the description field is not empty, set the description for the key in firebase
-                                mRef.child(received[0]).child("description").setValue(received[2]);
-                        }
-                 }
-                if(displayMessage == 1) { // If the user is trying to add or change data to a different existing key, display a message to the user
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage("Do you wish to override it?");
-                    builder.setCancelable(false) // Stop alertDialog from disappearing
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) { // If the user says 'yes' to having the data overriden
-                                    mRef.child(toSend[0]).removeValue(); // Remove the existing key data
-                                    if (!received[1].equals(null) && !received[1].equals("")) // If a bin location has been specified, set it in firebase
+        if (requestCode == PICK_CONTACT_REQUEST)                                              // EditBinData activities with return values
+            if (resultCode == RESULT_OK) {
+                final String[] received = resultsScreen.getStringArrayExtra("newInfo"); // Extract the array of strings(the information to be put in firebase) from the returned intent
+                if (!received[0].equals(null) && !received[0].equals("")) { // If there is a key to the new data
+                    if (!received[0].equals(toSend[0])) { // If the child exists and it is not the same key that it started with
+                        mRef.child(received[0]).addValueEventListener(new ValueEventListener() { // Look for the key in firebase
+                            //   Query queryRef = mRef.equalTo(received[0]).limitToFirst(1);
+                            //         if (queryRef != null) { // If that key already exists in firebase, report that an alert should be displayed
+                            // If the user is trying to add or change data to a different existing key, display a message to the user
+                            //System.out.println(queryRef);
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot != null) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(accessThis);
+                                    builder.setMessage("Do you wish to override it?");
+                                    builder.setCancelable(false) // Stop alertDialog from disappearing
+                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) { // If the user says 'yes' to having the data overriden
+                                                    // mRef.child(toSend[0]).removeValue(); // Remove the existing key data
+                                                    if (!received[1].equals(null) && !received[1].equals("")) // If a bin location has been specified, set it in firebase
+                                                        mRef.child(received[0]).child("bin").setValue(received[1]);
+                                                    if (!received[2].equals(null) && !received[2].equals("")) // If a description has been specified, set it in firebase
+                                                        mRef.child(received[0]).child("description").setValue(received[2]);
+                                                    dialog.cancel();
+                                                }
+                                            })
+                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int id) { // If they don't want to override the data, return to the MainActivity screen
+                                                    dialog.cancel();
+                                                }
+                                            });
+                                    AlertDialog alert = builder.create();
+                                    alert.setTitle(received[0] + " already exists as an item in the database. ");
+                                    alert.show(); // Display the alert to the user
+                                } else // Otherwise, create the new data in firebase
+                                {
+                                    mRef.child(received[0]).setValue("");
+                                    if (!received[1].equals(null) && !received[1].equals(""))
                                         mRef.child(received[0]).child("bin").setValue(received[1]);
-                                    if (!received[2].equals(null) && !received[2].equals("")) // If a description has been specified, set it in firebase
+                                    if (!received[2].equals(null) && !received[2].equals(""))
                                         mRef.child(received[0]).child("description").setValue(received[2]);
                                 }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int id) { // If they don't want to override the data, return to the MainActivity screen
-                                    dialog.cancel();
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.setTitle(received[0] + " already exists as an item in the database. ");
-                    alert.show(); // Display the alert to the user
-                    displayMessage = 0; // Set that no alerts need to be displayed
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+                            }
+                        });
+                    } else // If creating new data or editing same data
+                    {
+                        if (received[0].equals(toSend[0])) // If the data exists and is being edited
+                            mRef.child(toSend[0]).removeValue(); // Remove data under the original key from firebase
+                        mRef.child(received[0]).setValue(""); // Create the key and set it to be empty
+                        if (!received[1].equals(null) && !received[1].equals("")) // If the bin field is not empty, set the bin for the key in firebase
+                            mRef.child(received[0]).child("bin").setValue(received[1]);
+                        if (!received[2].equals(null) && !received[2].equals("")) // If the description field is not empty, set the description for the key in firebase
+                            mRef.child(received[0]).child("description").setValue(received[2]);
+                    }
                 }
             }
     }
@@ -283,7 +284,12 @@ public class MainActivity extends AppCompatActivity {
                                 toSend[1] = foundStuff.getBin(); // Will hold the Bin Location
                                 toSend[2] = foundStuff.getDescription(); // Will hold the description
 
-                                callActivity = 1; // Report that an activity matching the user's search has been located
+                                if(callActivity == 0) { // If the user's search has been located in the firebase
+                                    Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // Create a intent that will start the SearchResult activity
+                                    resultsScreen.putExtra("foundItem", toSend); // Add the array of strings containing the information found in firebase to the intent
+                                    startActivityForResult(resultsScreen, 1); // Start the activity expecting a return value. onActivityResult is implicitly called upon return
+                                    callActivity = 1; // Reset to 0, showing that no activity needs to be called
+                                }
                             } else {
                                 textView.setText("Item number '" + userSearch + "' does not exist.");
                                 textView.setTextColor(Color.RED);
@@ -320,7 +326,12 @@ public class MainActivity extends AppCompatActivity {
                                         toSend[2] = foundStuff.getDescription(); // Will hold the description
 
                                         foundLocation = 1; // Report that a bin location has been found
-                                        callActivity = 1; // Report that an bin location matching the user's search has been found
+                                        if(callActivity == 0) { // If the user's search has been located in the firebase
+                                            Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // Create a intent that will start the SearchResult activity
+                                            resultsScreen.putExtra("foundItem", toSend); // Add the array of strings containing the information found in firebase to the intent
+                                            startActivityForResult(resultsScreen, 1); // Start the activity expecting a return value. onActivityResult is implicitly called upon return
+                                            callActivity = 1; // Reset to 0, showing that no activity needs to be called
+                                        }
                                     }
                                 }
                             }
@@ -334,12 +345,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onCancelled(FirebaseError firebaseError) {}
                     });
-                }
-                if(callActivity == 1) { // If the user's search has been located in the firebase
-                    Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // Create a intent that will start the SearchResult activity
-                    resultsScreen.putExtra("foundItem", toSend); // Add the array of strings containing the information found in firebase to the intent
-                    startActivityForResult(resultsScreen, 1); // Start the activity expecting a return value. onActivityResult is implicitly called upon return
-                    callActivity = 0; // Reset to 0, showing that no activity needs to be called
+                    callActivity = 0;
                 }
                 return false;
             }
@@ -403,8 +409,6 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     });
-
-
                 }
                 return false;
             }
