@@ -130,9 +130,100 @@ public class MainActivity extends AppCompatActivity {
                 toSend[1] = "";
                 toSend[2] = "";
                 gatheredIntent.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the EditBinData activity
-                startActivityForResult(gatheredIntent, 1); // Start the EditBinData activity expecting a return value. When it returns, this implicitly calls onActivityResult
+                startActivityForResult(gatheredIntent, 1); // Start the EditBinData activity expecting a return value. When it returns, this implicitly calls onActivityFstartResult
             }
         });
+
+        result1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) { // When the 'New Bin' button is clicked by the user
+                final String buttonText = result1.getText().toString();
+                mRef.child(buttonText).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        toSend[1] = dataSnapshot.child("bin").getValue(String.class);  // Set the array of strings that will be sent into the activity to be empty
+                        System.out.println("toSend[0]: " + toSend[0]);
+                        toSend[0] = buttonText;
+                        toSend[2] = dataSnapshot.child("description").getValue(String.class);
+
+                        Intent gatheredIntent = new Intent(getApplicationContext(), SearchResult.class); // Create an intent to begin the EditBinData activity
+
+                        gatheredIntent.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the EditBinData activity
+                        startActivityForResult(gatheredIntent, 1); // Start the EditBinData activity expecting a return value. When it returns, this implicitly calls onActivityResult
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
+
+
+            }
+        });
+
+        result2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) { // When the 'New Bin' button is clicked by the user
+                final String buttonText = result2.getText().toString();
+                mRef.child(buttonText).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        toSend[1] = dataSnapshot.child("bin").getValue(String.class);  // Set the array of strings that will be sent into the activity to be empty
+                        System.out.println("toSend[0]: " + toSend[0]);
+                        toSend[0] = buttonText;
+                        toSend[2] = dataSnapshot.child("description").getValue(String.class);
+
+                        Intent gatheredIntent = new Intent(getApplicationContext(), SearchResult.class); // Create an intent to begin the EditBinData activity
+
+                        gatheredIntent.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the EditBinData activity
+                        startActivityForResult(gatheredIntent, 1); // Start the EditBinData activity expecting a return value. When it returns, this implicitly calls onActivityResult
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
+
+
+            }
+        });
+
+        result3.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) { // When the 'New Bin' button is clicked by the user
+                final String buttonText = result3.getText().toString();
+                mRef.child(buttonText).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        toSend[1] = dataSnapshot.child("bin").getValue(String.class);  // Set the array of strings that will be sent into the activity to be empty
+                        System.out.println("toSend[0]: " + toSend[0]);
+                        toSend[0] = buttonText;
+                        toSend[2] = dataSnapshot.child("description").getValue(String.class);
+
+                        Intent gatheredIntent = new Intent(getApplicationContext(), SearchResult.class); // Create an intent to begin the EditBinData activity
+
+                        gatheredIntent.putExtra("foundItem", toSend); // Store the array of strings in the intent that gets passed to the EditBinData activity
+                        startActivityForResult(gatheredIntent, 1); // Start the EditBinData activity expecting a return value. When it returns, this implicitly calls onActivityResult
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
+
+
+            }
+        });
+
+
+
+
 
         Spinner searchOption = (Spinner) findViewById(R.id.searchOptions); // Create a reference to the searchOptions
         searchOption.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { // When a searchOption has been selected
@@ -259,14 +350,14 @@ public class MainActivity extends AppCompatActivity {
                 userSearch = query;
 
                 if (searchType == 0) {
-                    Query queryRef = mRef.orderByKey().startAt(userSearch).limitToFirst(3);
-                    System.out.println(queryRef);
+                    Query queryRef = mRef.orderByKey().startAt(userSearch).endAt(userSearch + "\uf8ff").limitToFirst(3);
+                    //System.out.println(queryRef);
                     queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             int foundLocation = 0;
                             int iteration = 0;
-
+                            System.out.println(userSearch);
                             for(DataSnapshot child : dataSnapshot.getChildren()) {
                                 ++iteration;
                                 if(iteration == 1){
@@ -286,15 +377,22 @@ public class MainActivity extends AppCompatActivity {
                             }
                             if(iteration == 0){
                                 result1.setVisibility(View.INVISIBLE);
+
                                 result2.setVisibility(View.INVISIBLE);
                                 result3.setVisibility(View.INVISIBLE);
+                                result1.setText("");
+                                result2.setText("");
+                                result3.setText("");
                             }
                             if(iteration == 1){
                                 result2.setVisibility(View.INVISIBLE);
                                 result3.setVisibility(View.INVISIBLE);
+                                result2.setText("");
+                                result3.setText("");
                             }
                             else if(iteration == 2){
                                 result3.setVisibility(View.INVISIBLE);
+                                result3.setText("");
                             }
                             iteration = 0;
 
