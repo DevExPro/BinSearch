@@ -13,12 +13,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Number: "
-        android:id="@+id/numberLabel"
-        android:layout_marginTop="49dp"
-        android:layout_below="@+id/pageHeader"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:text="@string/item"
+        android:id="@+id/pageHeader"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/NumberVal"
+        android:text=""
+        android:layout_alignBottom="@+id/numberLabel"
+        android:layout_toRightOf="@+id/numberLabel"
+        android:layout_toEndOf="@+id/numberLabel" />
+
+    <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/DescriptionVal"
+        android:layout_alignBottom="@+id/descriptionLabel"
+        android:layout_toRightOf="@+id/descriptionLabel"
+        android:layout_toEndOf="@+id/descriptionLabel" />
+
+    <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/LocationVal"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/NumberVal"
+        android:layout_toRightOf="@+id/locationLabel"
+        android:layout_toEndOf="@+id/locationLabel" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,8 +55,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Location: "
         android:id="@+id/locationLabel"
-        android:layout_marginTop="53dp"
-        android:layout_below="@+id/numberLabel"
+        android:layout_above="@+id/descriptionLabel"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -37,55 +65,28 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Description: "
         android:id="@+id/descriptionLabel"
-        android:layout_below="@+id/locationLabel"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/LocationVal"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="54dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/item"
-        android:id="@+id/pageHeader"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/NumberVal"
-        android:layout_alignBottom="@+id/numberLabel"
-        android:layout_toRightOf="@+id/numberLabel"
-        android:layout_toEndOf="@+id/numberLabel" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/LocationVal"
-        android:layout_alignBottom="@+id/locationLabel"
-        android:layout_toRightOf="@+id/locationLabel"
-        android:layout_toEndOf="@+id/locationLabel" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/DescriptionVal"
-        android:layout_alignBottom="@+id/descriptionLabel"
-        android:layout_toRightOf="@+id/descriptionLabel"
-        android:layout_toEndOf="@+id/descriptionLabel" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:text="Edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/editInfo"
         android:layout_below="@+id/DescriptionVal"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="69dp"
-        android:id="@+id/editInfo" />
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Number: "
+        android:id="@+id/numberLabel"
+        android:layout_below="@+id/pageHeader"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

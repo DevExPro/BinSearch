@@ -55,8 +55,8 @@ public class EditBinData extends AppCompatActivity {
                 else { // If at least the bin number field is filled
                     Intent gatheredIntent = getIntent(); // Get the existing intent
                     String[] toSend = new String[3]; // Create an array of strings that will hold the new bin information
-                    toSend[0] = itemNum.getText().toString(); // Bin number
-                    toSend[1] = itemLocate.getText().toString(); // Bin location
+                    toSend[0] = itemNum.getText().toString().toUpperCase(); // Bin number
+                    toSend[1] = itemLocate.getText().toString().toUpperCase(); // Bin location
                     toSend[2] = itemDescript.getText().toString(); // Bin description
                     gatheredIntent.putExtra("newInfo", toSend); // Store the array of strings in the intent that gets passed to the next activity
                     setResult(RESULT_OK, gatheredIntent); // Set the returned intent to be the gatheredIntent

@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SearchView searchField = (SearchView)findViewById(R.id.searchView); // Create reference to searchView box on the mainActivity page - where user puts search
         searchField.setIconifiedByDefault(false);
-        searchField.setQueryHint("Item number or location"); // Hint text placed in the search box
+        searchField.setQueryHint("Item number"); // Hint text placed in the search box
         textView = (TextView)findViewById(R.id.errorMessage); // Create reference to textView on the mainActivity page - used to display error and warnings to user
 
         final Button result1 = (Button)findViewById(R.id.result1);
@@ -222,10 +222,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
         Spinner searchOption = (Spinner) findViewById(R.id.searchOptions); // Create a reference to the searchOptions
         searchOption.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { // When a searchOption has been selected
             @Override
@@ -240,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
         searchField.setOnQueryTextListener( new SearchView.OnQueryTextListener() { // Listen for when the user submits their search
             @Override
             public boolean onQueryTextSubmit(String query) { // When the user submits their search
-                userSearch = query; // Set the userSearch string to be what the user entered into the searchField
+                userSearch = query.toUpperCase(); // Set the userSearch string to be what the user entered into the searchField
 
                 ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -250,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(searchType == 0) { // If the user wants to search by item number
-                    mRef.child(query).addValueEventListener(new ValueEventListener() { // Look for data by that key in firebase
+                    mRef.child(userSearch).addValueEventListener(new ValueEventListener() { // Look for data by that key in firebase
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.getValue() != null) { // If data with that key has been found in firebase
@@ -299,6 +295,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onCancelled(FirebaseError firebaseError) {}
                     });
+                    callActivity = 0;
                 }
                 else if (searchType == 1) // If the user wants to search by bin location
                 {
@@ -353,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String query) {
            //     Toast.makeText(getApplicationContext(), "Changed Text", Toast.LENGTH_LONG).show();
-                userSearch = query;
+                userSearch = query.toUpperCase();
 
                 if (searchType == 0) {
                     Query queryRef = mRef.orderByKey().startAt(userSearch).endAt(userSearch + "\uf8ff").limitToFirst(3);
