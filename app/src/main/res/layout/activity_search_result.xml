@@ -53,32 +53,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Location: "
-        android:id="@+id/locationLabel"
-        android:layout_above="@+id/descriptionLabel"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Description: "
         android:id="@+id/descriptionLabel"
         android:layout_marginTop="25dp"
         android:layout_below="@+id/LocationVal"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="Edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-<<<<<<< HEAD
-        android:id="@+id/editInfo"
-        android:layout_below="@+id/DescriptionVal"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -89,25 +69,38 @@
         android:layout_below="@+id/pageHeader"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-=======
-        android:layout_marginTop="69dp"
-        android:id="@+id/editInfo"
-        android:layout_below="@+id/descriptionLabel"
-        android:layout_toLeftOf="@+id/pageHeader"
-        android:layout_toStartOf="@+id/pageHeader"
-        android:layout_marginRight="11dp"
-        android:layout_marginEnd="11dp" />
 
     <Button
         android:text="Delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/editInfo"
-        android:layout_toRightOf="@+id/editInfo"
-        android:layout_toEndOf="@+id/editInfo"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp"
-        android:id="@+id/deleteButton" />
->>>>>>> origin/master
+        android:id="@+id/deleteButton"
+        android:layout_alignBaseline="@+id/editInfo"
+        android:layout_alignBottom="@+id/editInfo"
+        android:layout_toRightOf="@+id/pageHeader"
+        android:layout_toEndOf="@+id/pageHeader"
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="22dp" />
 
+    <Button
+        android:text="Edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editInfo"
+        android:layout_marginTop="29dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_below="@+id/DescriptionVal"
+        android:layout_toLeftOf="@+id/pageHeader"
+        android:layout_toStartOf="@+id/pageHeader" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Location: "
+        android:id="@+id/locationLabel"
+        android:layout_above="@+id/descriptionLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

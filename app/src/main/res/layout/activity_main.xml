@@ -12,12 +12,8 @@
 
     <Button
         android:layout_width="match_parent"
-<<<<<<< HEAD
         android:layout_height="35dp"
         android:gravity="center"
-=======
-        android:layout_height="wrap_content"
->>>>>>> origin/master
         android:id="@+id/result2"
         android:layout_below="@+id/result1"
         android:layout_alignParentLeft="true"
@@ -51,18 +47,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:gravity="center"
-        android:id="@+id/result1"
-        android:visibility="invisible"
-        android:layout_below="@+id/errorMessage"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        app:voiceIcon="@android:drawable/presence_video_busy"
-        android:elevation="1dp" />
-
     <TextView
         android:text=""
         android:gravity="center"
@@ -95,11 +79,15 @@
         android:layout_alignBottom="@+id/textView2"
         android:layout_centerHorizontal="true" />
 
+
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
+        android:gravity="center"
         android:id="@+id/result1"
         android:visibility="invisible"
+        android:voiceIcon="@android:drawable/presence_video_busy"
+        android:elevation="1dp"
         android:layout_below="@+id/errorMessage"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
