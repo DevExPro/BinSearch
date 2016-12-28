@@ -62,7 +62,8 @@
         android:layout_toRightOf="@+id/numberLabel"
         android:layout_toEndOf="@+id/numberLabel"
         android:lines="1"
-        android:maxLines="1"/>
+        android:maxLines="1"
+        android:freezesText="false" />
 
     <EditText
         android:layout_width="wrap_content"

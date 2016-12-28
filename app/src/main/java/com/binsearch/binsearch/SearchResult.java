@@ -38,7 +38,7 @@ public class SearchResult extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
-        Intent gatheredIntent = getIntent(); // Get the intent that was passed into the activity
+        final Intent gatheredIntent = getIntent(); // Get the intent that was passed into the activity
         searchReceived = gatheredIntent.getStringArrayExtra("foundItem"); // Take the array of item info out of the intent
 
         TextView itemNum = (TextView)findViewById(R.id.NumberVal); // Set connection to the TextView that will display the bin number
@@ -57,6 +57,24 @@ public class SearchResult extends AppCompatActivity {
                 Intent resultsScreen = new Intent(getApplicationContext(), EditBinData.class); // Create an intent that will start the EditBinData activity
                 resultsScreen.putExtra("foundItem", searchReceived); // Store the array of strings in the intent that gets passed to the next activity
                 startActivityForResult(resultsScreen, 1); // Start the EditBinData activity expecting return data. onActivityResult will be called implicitly upon its return
+            }
+        });
+
+        Button deleteButton = (Button)findViewById(R.id.deleteButton); // Create reference to Delete button
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) { // If the delete button is clicked by the user
+                String[] toSend = new String[3]; // Create an array of strings that will hold the new bin information
+                toSend[0] = searchReceived[0]; // Bin number
+                toSend[1] = "delete"; // Bin location
+                toSend[2] = "delete"; // Bin description
+                gatheredIntent.putExtra("newInfo", toSend);
+                setResult(RESULT_OK, gatheredIntent); // Set the returned intent to be the gatheredIntent
+                finish(); // End the EditBinData activity
+               /* Intent resultsScreen = new Intent(getApplicationContext(), EditBinData.class); // Create an intent that will start the EditBinData activity
+                resultsScreen.putExtra("foundItem", searchReceived); // Store the array of strings in the intent that gets passed to the next activity
+                startActivityForResult(resultsScreen, 1); // Start the EditBinData activity expecting return data. onActivityResult will be called implicitly upon its return*/
             }
         });
     }

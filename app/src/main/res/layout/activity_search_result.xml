@@ -83,9 +83,23 @@
         android:text="Edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/DescriptionVal"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="69dp"
-        android:id="@+id/editInfo" />
+        android:id="@+id/editInfo"
+        android:layout_below="@+id/descriptionLabel"
+        android:layout_toLeftOf="@+id/pageHeader"
+        android:layout_toStartOf="@+id/pageHeader"
+        android:layout_marginRight="11dp"
+        android:layout_marginEnd="11dp" />
+
+    <Button
+        android:text="Delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/editInfo"
+        android:layout_toRightOf="@+id/editInfo"
+        android:layout_toEndOf="@+id/editInfo"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:id="@+id/deleteButton" />
 
 </RelativeLayout>

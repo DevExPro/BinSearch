@@ -64,5 +64,6 @@ public class EditBinData extends AppCompatActivity {
                 }
             }
     });
+
 }
 }
