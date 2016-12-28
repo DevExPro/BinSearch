@@ -81,9 +81,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/item"
         android:id="@+id/pageHeader"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp" />
+        android:layout_alignParentTop="true" />
 
     <EditText
         android:layout_width="wrap_content"
