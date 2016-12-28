@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,8 +12,12 @@
 
     <Button
         android:layout_width="match_parent"
+<<<<<<< HEAD
         android:layout_height="35dp"
         android:gravity="center"
+=======
+        android:layout_height="wrap_content"
+>>>>>>> origin/master
         android:id="@+id/result2"
         android:layout_below="@+id/result1"
         android:layout_alignParentLeft="true"
@@ -54,7 +59,9 @@
         android:visibility="invisible"
         android:layout_below="@+id/errorMessage"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        app:voiceIcon="@android:drawable/presence_video_busy"
+        android:elevation="1dp" />
 
     <TextView
         android:text=""
@@ -87,6 +94,15 @@
         android:entries="@array/searchOptions"
         android:layout_alignBottom="@+id/textView2"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/result1"
+        android:visibility="invisible"
+        android:layout_below="@+id/errorMessage"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

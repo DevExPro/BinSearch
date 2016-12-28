@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot != null) {
+
                                     AlertDialog.Builder builder = new AlertDialog.Builder(accessThis);
                                     builder.setMessage("Do you wish to override it?");
                                     builder.setCancelable(false) // Stop alertDialog from disappearing
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                                     AlertDialog alert = builder.create();
                                     alert.setTitle(received[0] + " already exists as an item in the database. ");
                                     alert.show(); // Display the alert to the user
+
                                 } else // Otherwise, create the new data in firebase
                                 {
                                     mRef.child(received[0]).setValue("");
@@ -95,13 +97,20 @@ public class MainActivity extends AppCompatActivity {
                         });
                     } else // If creating new data or editing same data
                     {
-                        if (received[0].equals(toSend[0])) // If the data exists and is being edited
-                            mRef.child(toSend[0]).removeValue(); // Remove data under the original key from firebase
-                        mRef.child(received[0]).setValue(""); // Create the key and set it to be empty
-                        if (!received[1].equals(null) && !received[1].equals("")) // If the bin field is not empty, set the bin for the key in firebase
-                            mRef.child(received[0]).child("bin").setValue(received[1]);
-                        if (!received[2].equals(null) && !received[2].equals("")) // If the description field is not empty, set the description for the key in firebase
-                            mRef.child(received[0]).child("description").setValue(received[2]);
+                        //System.out.println("received[1]:" + received[1]);
+                        if(received[1].equals("delete")){
+
+                            mRef.child(received[0]).setValue(null);
+                        }
+                        else {
+                            if (received[0].equals(toSend[0])) // If the data exists and is being edited
+                                mRef.child(toSend[0]).removeValue(); // Remove data under the original key from firebase
+                            mRef.child(received[0]).setValue(""); // Create the key and set it to be empty
+                            if (!received[1].equals(null) && !received[1].equals("")) // If the bin field is not empty, set the bin for the key in firebase
+                                mRef.child(received[0]).child("bin").setValue(received[1]);
+                            if (!received[2].equals(null) && !received[2].equals("")) // If the description field is not empty, set the description for the key in firebase
+                                mRef.child(received[0]).child("description").setValue(received[2]);
+                        }
                     }
                 }
             }
@@ -140,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) { // When the 'New Bin' button is clicked by the user
                 final String buttonText = result1.getText().toString();
+
+                textView.setText(""); // Clear any existing warnings from the MainActivity screen's TextView
+
                 mRef.child(buttonText).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -354,11 +366,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (searchType == 0) {
                     Query queryRef = mRef.orderByKey().startAt(userSearch).endAt(userSearch + "\uf8ff").limitToFirst(3);
-                    //System.out.println(queryRef);
-                    queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    //Query queryRef = mRef.child("bin");
+                    System.out.println(query);
+                    queryRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            int foundLocation = 0;
                             int iteration = 0;
                             System.out.println(userSearch);
                             for(DataSnapshot child : dataSnapshot.getChildren()) {
@@ -380,7 +392,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                             if(iteration == 0){
                                 result1.setVisibility(View.INVISIBLE);
-
                                 result2.setVisibility(View.INVISIBLE);
                                 result3.setVisibility(View.INVISIBLE);
                                 result1.setText("");
