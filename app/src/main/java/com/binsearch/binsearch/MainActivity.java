@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                         });
                     } else // If creating new data or editing same data
                     {
-                        //System.out.println("received[1]:" + received[1]);
                         if(received[1].equals("delete")){
 
                             mRef.child(received[0]).setValue(null);
@@ -301,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
                                     textView.setTextColor(Color.RED);
                                     System.out.println("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
                                 }
+
                             }
 
                             @Override

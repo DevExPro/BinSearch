@@ -39,6 +39,7 @@
 
     <SearchView
         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 "
+        android:textAllCaps ="true"
         android:layout_width="560dp"
         android:layout_height="70dp"
         android:id="@+id/searchView"
