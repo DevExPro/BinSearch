@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (dataSnapshot != null) {
 
                                     AlertDialog.Builder builder = new AlertDialog.Builder(accessThis);
-                                    builder.setMessage("Do you wish to override it?");
+                                    builder.setMessage("Do you wish to overwrite it?");
                                     builder.setCancelable(false) // Stop alertDialog from disappearing
                                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                                 @Override
@@ -253,106 +253,115 @@ public class MainActivity extends AppCompatActivity {
                     textView.setTextColor(Color.RED);
                 }
 
-                if(searchType == 0) { // If the user wants to search by item number
-                    mRef.child(userSearch).addValueEventListener(new ValueEventListener() { // Look for data by that key in firebase
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue() != null) { // If data with that key has been found in firebase
-                                if(dataSnapshot.hasChild("bin") && dataSnapshot.hasChild("description")){ // If the firebase has both bin and description data for the requested key
-                                    foundStuff = dataSnapshot.getValue(BinData.class); // Load all of the info into an instance of the 'BinData' class
-                                }
-                                else if(dataSnapshot.hasChild("bin")) // If the firebase only has bin location information for the requested key
-                                {
-                                    foundStuff = new BinData(); // Create a new 'Bin Data'
-                                    foundStuff.setBin(dataSnapshot.child("bin").getValue(String.class)); // Load the value of bin location into the BinData
-                                    foundStuff.setDescription("No Description"); // Report that no description has been set
-                                }
-                                else if(dataSnapshot.hasChild("description")) // If the firebase only has description information for the requested key
-                                {
-                                    foundStuff = new BinData(); // Create a new 'Bin Data'
-                                    foundStuff.setBin("No Bin Location"); // Report that no bin location has been set
-                                    foundStuff.setDescription(dataSnapshot.child("description").getValue(String.class)); // Load the value of description into the BinData
-                                }
-                                else // If the firebase doesn't have a bin or description for the requested key
-                                {
-                                    foundStuff = new BinData(); // Create a new 'Bin Data'
-                                    foundStuff.setBin("No Bin Location"); // Report that no bin location has been set
-                                    foundStuff.setDescription("No Description"); // Report that no description has been set
-                                }
+                if(userSearch.indexOf('.')  < 0 && userSearch.indexOf('$') < 0 && (userSearch.indexOf('#') < 0) && (userSearch.indexOf('/') < 0) && userSearch.indexOf(']') < 0 && userSearch.indexOf('[') < 0){
+                    System.out.println("success");
+                    if(searchType == 0) { // If the user wants to search by item number
+                        mRef.child(userSearch).addValueEventListener(new ValueEventListener() { // Look for data by that key in firebase
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getValue() != null) { // If data with that key has been found in firebase
+                                    if(dataSnapshot.hasChild("bin") && dataSnapshot.hasChild("description")){ // If the firebase has both bin and description data for the requested key
+                                        foundStuff = dataSnapshot.getValue(BinData.class); // Load all of the info into an instance of the 'BinData' class
+                                    }
+                                    else if(dataSnapshot.hasChild("bin")) // If the firebase only has bin location information for the requested key
+                                    {
+                                        foundStuff = new BinData(); // Create a new 'Bin Data'
+                                        foundStuff.setBin(dataSnapshot.child("bin").getValue(String.class)); // Load the value of bin location into the BinData
+                                        foundStuff.setDescription("No Description"); // Report that no description has been set
+                                    }
+                                    else if(dataSnapshot.hasChild("description")) // If the firebase only has description information for the requested key
+                                    {
+                                        foundStuff = new BinData(); // Create a new 'Bin Data'
+                                        foundStuff.setBin("No Bin Location"); // Report that no bin location has been set
+                                        foundStuff.setDescription(dataSnapshot.child("description").getValue(String.class)); // Load the value of description into the BinData
+                                    }
+                                    else // If the firebase doesn't have a bin or description for the requested key
+                                    {
+                                        foundStuff = new BinData(); // Create a new 'Bin Data'
+                                        foundStuff.setBin("No Bin Location"); // Report that no bin location has been set
+                                        foundStuff.setDescription("No Description"); // Report that no description has been set
+                                    }
 
-                                foundStuff.setKey(dataSnapshot.getKey()); // Load the value of the key into the BinData
+                                    foundStuff.setKey(dataSnapshot.getKey()); // Load the value of the key into the BinData
 
-                                textView.setText(""); // Clear any existing warnings from the MainActivity screen's TextView
+                                    textView.setText(""); // Clear any existing warnings from the MainActivity screen's TextView
 
-                                toSend[0] = foundStuff.getKey(); // Will hold the Bin number
-                                toSend[1] = foundStuff.getBin(); // Will hold the Bin Location
-                                toSend[2] = foundStuff.getDescription(); // Will hold the description
+                                    toSend[0] = foundStuff.getKey(); // Will hold the Bin number
+                                    toSend[1] = foundStuff.getBin(); // Will hold the Bin Location
+                                    toSend[2] = foundStuff.getDescription(); // Will hold the description
 
-                                if(callActivity == 0) { // If the user's search has been located in the firebase
-                                    Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // Create a intent that will start the SearchResult activity
-                                    resultsScreen.putExtra("foundItem", toSend); // Add the array of strings containing the information found in firebase to the intent
-                                    startActivityForResult(resultsScreen, 1); // Start the activity expecting a return value. onActivityResult is implicitly called upon return
-                                    callActivity = 1; // Reset to 0, showing that no activity needs to be called
+                                    if(callActivity == 0) { // If the user's search has been located in the firebase
+                                        Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // Create a intent that will start the SearchResult activity
+                                        resultsScreen.putExtra("foundItem", toSend); // Add the array of strings containing the information found in firebase to the intent
+                                        startActivityForResult(resultsScreen, 1); // Start the activity expecting a return value. onActivityResult is implicitly called upon return
+                                        callActivity = 1; // Reset to 0, showing that no activity needs to be called
+                                    }
+                                } else {
+                                    textView.setText("Item number '" + userSearch + "' does not exist.");
+                                    textView.setTextColor(Color.RED);
+                                    System.out.println("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
                                 }
-                            } else {
-                                textView.setText("Item number '" + userSearch + "' does not exist.");
-                                textView.setTextColor(Color.RED);
-                                System.out.println("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(FirebaseError firebaseError) {}
-                    });
-                    callActivity = 0;
-                }
-                else if (searchType == 1) // If the user wants to search by bin location
-                {
-                    Query searchLocation = mRef; // Set the query to reference the firebase database
-                    searchLocation.addListenerForSingleValueEvent(new ValueEventListener() { // Set a listener for the data in firebase
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) { // When data is changed or when app is MainActivity first created
-                            int foundLocation = 0; // Set it so that no location is reported, by default
-                            for(DataSnapshot child : dataSnapshot.getChildren()) { // Go through each key in the firebase
-                                if(child.hasChild("bin")) { // If the key has a 'bin' child
-                                    if (child.child("bin").getValue(String.class).equals(userSearch)) { // If the requested bin location has been located
-                                        if(!child.hasChild("description")) { // If no description has been provided with the bin info
-                                            foundStuff = new BinData(); // Create a new instance of BinData
-                                            foundStuff.setDescription("No Description"); // Report that no description was set
-                                            foundStuff.setBin(child.child("bin").getValue(String.class)); // Set the value of bin location to the value received from firebase
-                                        }
-                                        else { // If the located bin has a description
-                                            foundStuff = child.getValue(BinData.class); // Load all values into instance of BinData
-                                        }
-                                        foundStuff.setKey(child.getKey()); // Set the key of instance of BinData to the key retrieved from the firebase
-                                        textView.setText(""); // Remove existing warnings from the textView in MainActivity
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {}
+                        });
+                        callActivity = 0;
+                    }
+                    else if (searchType == 1) // If the user wants to search by bin location
+                    {
+                        Query searchLocation = mRef; // Set the query to reference the firebase database
+                        searchLocation.addListenerForSingleValueEvent(new ValueEventListener() { // Set a listener for the data in firebase
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) { // When data is changed or when app is MainActivity first created
+                                int foundLocation = 0; // Set it so that no location is reported, by default
+                                for(DataSnapshot child : dataSnapshot.getChildren()) { // Go through each key in the firebase
+                                    if(child.hasChild("bin")) { // If the key has a 'bin' child
+                                        if (child.child("bin").getValue(String.class).equals(userSearch)) { // If the requested bin location has been located
+                                            if(!child.hasChild("description")) { // If no description has been provided with the bin info
+                                                foundStuff = new BinData(); // Create a new instance of BinData
+                                                foundStuff.setDescription("No Description"); // Report that no description was set
+                                                foundStuff.setBin(child.child("bin").getValue(String.class)); // Set the value of bin location to the value received from firebase
+                                            }
+                                            else { // If the located bin has a description
+                                                foundStuff = child.getValue(BinData.class); // Load all values into instance of BinData
+                                            }
+                                            foundStuff.setKey(child.getKey()); // Set the key of instance of BinData to the key retrieved from the firebase
+                                            textView.setText(""); // Remove existing warnings from the textView in MainActivity
 
-                                        toSend[0] = foundStuff.getKey(); // Will hold the Bin Number
-                                        toSend[1] = foundStuff.getBin(); // Will hold the Bin Location
-                                        toSend[2] = foundStuff.getDescription(); // Will hold the description
+                                            toSend[0] = foundStuff.getKey(); // Will hold the Bin Number
+                                            toSend[1] = foundStuff.getBin(); // Will hold the Bin Location
+                                            toSend[2] = foundStuff.getDescription(); // Will hold the description
 
-                                        foundLocation = 1; // Report that a bin location has been found
-                                        if(callActivity == 0) { // If the user's search has been located in the firebase
-                                            Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // Create a intent that will start the SearchResult activity
-                                            resultsScreen.putExtra("foundItem", toSend); // Add the array of strings containing the information found in firebase to the intent
-                                            startActivityForResult(resultsScreen, 1); // Start the activity expecting a return value. onActivityResult is implicitly called upon return
-                                            callActivity = 1; // Reset to 0, showing that no activity needs to be called
+                                            foundLocation = 1; // Report that a bin location has been found
+                                            if(callActivity == 0) { // If the user's search has been located in the firebase
+                                                Intent resultsScreen = new Intent(getApplicationContext(), SearchResult.class); // Create a intent that will start the SearchResult activity
+                                                resultsScreen.putExtra("foundItem", toSend); // Add the array of strings containing the information found in firebase to the intent
+                                                startActivityForResult(resultsScreen, 1); // Start the activity expecting a return value. onActivityResult is implicitly called upon return
+                                                callActivity = 1; // Reset to 0, showing that no activity needs to be called
+                                            }
                                         }
                                     }
                                 }
+                                if(foundLocation == 0)
+                                {
+                                    textView.setText("Bin location '" + userSearch + "' does not exist.");
+                                    textView.setTextColor(Color.RED);
+                                }
                             }
-                            if(foundLocation == 0)
-                            {
-                                textView.setText("Bin location '" + userSearch + "' does not exist.");
-                                textView.setTextColor(Color.RED);
-                            }
-                        }
 
-                        @Override
-                        public void onCancelled(FirebaseError firebaseError) {}
-                    });
-                    callActivity = 0;
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {}
+                        });
+                        callActivity = 0;
+                    }
                 }
+                else{
+                    textView.setText("The query must not contain .$#][./");
+                    textView.setTextColor(Color.RED);
+                }
+
+
                 return false;
             }
 
@@ -363,6 +372,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if (searchType == 0) {
                     Query queryRef = mRef.orderByKey().startAt(userSearch).endAt(userSearch + "\uf8ff").limitToFirst(3);
+                    System.out.println(query);
+                    System.out.println(query.indexOf('A'));
                     //Query queryRef = mRef.child("bin");
                     queryRef.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -370,6 +381,13 @@ public class MainActivity extends AppCompatActivity {
                             int iteration = 0;
                             for(DataSnapshot child : dataSnapshot.getChildren()) {
                                 ++iteration;
+
+                                if(child.getKey().equals(userSearch)){
+                                    result1.setVisibility(View.VISIBLE);
+                                    result1.setText(child.getKey());
+                                    iteration = -1;
+                                    break;
+                                }
                                 if(iteration == 1){
                                     result1.setVisibility(View.VISIBLE);
                                     result1.setText(child.getKey());
@@ -385,7 +403,14 @@ public class MainActivity extends AppCompatActivity {
 
 
                             }
-                            if(iteration == 0){
+
+                            if(iteration == -1){
+                                result2.setVisibility(View.INVISIBLE);
+                                result3.setVisibility(View.INVISIBLE);
+                                result2.setText("");
+                                result3.setText("");
+                            }
+                            else if(iteration == 0){
                                 result1.setVisibility(View.INVISIBLE);
                                 result2.setVisibility(View.INVISIBLE);
                                 result3.setVisibility(View.INVISIBLE);
@@ -393,7 +418,7 @@ public class MainActivity extends AppCompatActivity {
                                 result2.setText("");
                                 result3.setText("");
                             }
-                            if(iteration == 1){
+                            else if(iteration == 1){
                                 result2.setVisibility(View.INVISIBLE);
                                 result3.setVisibility(View.INVISIBLE);
                                 result2.setText("");
