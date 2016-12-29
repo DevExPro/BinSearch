@@ -12,7 +12,7 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="50dp"
         android:gravity="center"
         android:id="@+id/result2"
         android:layout_below="@+id/result1"
@@ -22,7 +22,7 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="50dp"
         android:gravity="center"
         android:id="@+id/result3"
         android:layout_below="@+id/result2"
@@ -74,7 +74,7 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="50dp"
         android:gravity="center"
         android:id="@+id/result1"
         android:visibility="invisible"
