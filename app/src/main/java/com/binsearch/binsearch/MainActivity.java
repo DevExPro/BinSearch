@@ -151,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         toSend[1] = dataSnapshot.child("bin").getValue(String.class);  // Set the array of strings that will be sent into the activity to be empty
-                        System.out.println("toSend[0]: " + toSend[0]);
                         toSend[0] = buttonText;
                         toSend[2] = dataSnapshot.child("description").getValue(String.class);
 
@@ -180,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         toSend[1] = dataSnapshot.child("bin").getValue(String.class);  // Set the array of strings that will be sent into the activity to be empty
-                        System.out.println("toSend[0]: " + toSend[0]);
                         toSend[0] = buttonText;
                         toSend[2] = dataSnapshot.child("description").getValue(String.class);
 
@@ -209,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         toSend[1] = dataSnapshot.child("bin").getValue(String.class);  // Set the array of strings that will be sent into the activity to be empty
-                        System.out.println("toSend[0]: " + toSend[0]);
                         toSend[0] = buttonText;
                         toSend[2] = dataSnapshot.child("description").getValue(String.class);
 
@@ -234,10 +231,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 searchType = position; // Set 'searchType' to correspond to the user's search preference
+
+                if(searchType == 1){
+                    result1.setVisibility(View.INVISIBLE);
+                    result2.setVisibility(View.INVISIBLE);
+                    result3.setVisibility(View.INVISIBLE);
+                    result1.setText("");
+                    result2.setText("");
+                    result3.setText("");
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
+
         });
 
         searchField.setOnQueryTextListener( new SearchView.OnQueryTextListener() { // Listen for when the user submits their search
@@ -253,7 +260,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(userSearch.indexOf('.')  < 0 && userSearch.indexOf('$') < 0 && (userSearch.indexOf('#') < 0) && (userSearch.indexOf('/') < 0) && userSearch.indexOf(']') < 0 && userSearch.indexOf('[') < 0){
-                    System.out.println("success");
                     if(searchType == 0) { // If the user wants to search by item number
                         mRef.child(userSearch).addValueEventListener(new ValueEventListener() { // Look for data by that key in firebase
                             @Override
@@ -298,7 +304,6 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     textView.setText("Item number '" + userSearch + "' does not exist.");
                                     textView.setTextColor(Color.RED);
-                                    System.out.println("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
                                 }
 
                             }
@@ -372,9 +377,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (searchType == 0) {
                     Query queryRef = mRef.orderByKey().startAt(userSearch).endAt(userSearch + "\uf8ff").limitToFirst(3);
-                    System.out.println(query);
-                    System.out.println(query.indexOf('A'));
-                    //Query queryRef = mRef.child("bin");
+
                     queryRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
