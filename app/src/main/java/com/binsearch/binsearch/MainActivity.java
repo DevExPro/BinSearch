@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SearchView searchField = (SearchView)findViewById(R.id.searchView); // Create reference to searchView box on the mainActivity page - where user puts search
         searchField.setIconifiedByDefault(false);
-        searchField.setQueryHint("Item number"); // Hint text placed in the search box
+        searchField.setQueryHint("Item number or location"); // Hint text placed in the search box
         textView = (TextView)findViewById(R.id.errorMessage); // Create reference to textView on the mainActivity page - used to display error and warnings to user
         final Button result1 = (Button)findViewById(R.id.result1);
         final Button result2 = (Button)findViewById(R.id.result2);
