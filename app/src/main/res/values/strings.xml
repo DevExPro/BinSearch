@@ -6,7 +6,7 @@
     <string name="item">Item</string>
     <string name="search_hint">Enter item number or location</string>
     <string name="num_error">Nonexistent item number</string>
-    <string name="searchMessage">Search for:</string>
+    <string name="searchMessage">Search by:</string>
     <string-array name="searchOptions">
         <item>Item number</item>
         <item>Bin location</item>
