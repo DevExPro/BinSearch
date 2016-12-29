@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
         searchField.setIconifiedByDefault(false);
         searchField.setQueryHint("Item number"); // Hint text placed in the search box
         textView = (TextView)findViewById(R.id.errorMessage); // Create reference to textView on the mainActivity page - used to display error and warnings to user
-
         final Button result1 = (Button)findViewById(R.id.result1);
         final Button result2 = (Button)findViewById(R.id.result2);
         final Button result3 = (Button)findViewById(R.id.result3);
