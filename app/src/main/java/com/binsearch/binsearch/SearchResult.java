@@ -1,6 +1,8 @@
 package com.binsearch.binsearch;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -59,19 +61,37 @@ public class SearchResult extends AppCompatActivity {
                 startActivityForResult(resultsScreen, 1); // Start the EditBinData activity expecting return data. onActivityResult will be called implicitly upon its return
             }
         });
-
+        final android.content.Context accessThis = this;
         Button deleteButton = (Button)findViewById(R.id.deleteButton); // Create reference to Delete button
         deleteButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) { // If the delete button is clicked by the user
-                String[] toSend = new String[3]; // Create an array of strings that will hold the new bin information
-                toSend[0] = searchReceived[0]; // Bin number
-                toSend[1] = "delete"; // Bin location
-                toSend[2] = "delete"; // Bin description
-                gatheredIntent.putExtra("newInfo", toSend);
-                setResult(RESULT_OK, gatheredIntent); // Set the returned intent to be the gatheredIntent
-                finish(); // End the EditBinData activity
+                AlertDialog.Builder builder = new AlertDialog.Builder(accessThis);
+                builder.setCancelable(false) // Stop alertDialog from disappearing
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String[] toSend = new String[3]; // Create an array of strings that will hold the new bin information
+                                toSend[0] = searchReceived[0]; // Bin number
+                                toSend[1] = "delete"; // Bin location
+                                toSend[2] = "delete"; // Bin description
+                                gatheredIntent.putExtra("newInfo", toSend);
+                                setResult(RESULT_OK, gatheredIntent); // Set the returned intent to be the gatheredIntent
+
+                                finish(); // End the EditBinData activity
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.setTitle("Are you sure you want to delete bin number " + searchReceived[0] + "?");
+                alert.show(); // Display the alert to the user
+
                /* Intent resultsScreen = new Intent(getApplicationContext(), EditBinData.class); // Create an intent that will start the EditBinData activity
                 resultsScreen.putExtra("foundItem", searchReceived); // Store the array of strings in the intent that gets passed to the next activity
                 startActivityForResult(resultsScreen, 1); // Start the EditBinData activity expecting return data. onActivityResult will be called implicitly upon its return*/

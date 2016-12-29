@@ -19,6 +19,7 @@
         android:layout_toRightOf="@+id/numberLabel"
         android:layout_toEndOf="@+id/numberLabel"
         android:inputType="text|textImeMultiLine"
+        android:nextFocusForward="@+id/LocationVal"
         android:lines="1"
         android:maxLines="1"/>
 
@@ -91,6 +92,7 @@
         android:ems="10"
         android:id="@+id/LocationVal"
         android:inputType="text|textImeMultiLine"
+        android:nextFocusForward="@+id/DescriptionVal"
         android:lines="1"
         android:maxLines="1"
         android:layout_below="@+id/NumberVal"

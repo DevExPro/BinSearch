@@ -48,11 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 final String[] received = resultsScreen.getStringArrayExtra("newInfo"); // Extract the array of strings(the information to be put in firebase) from the returned intent
                 if (!received[0].equals(null) && !received[0].equals("")) { // If there is a key to the new data
                     if (!received[0].equals(toSend[0])) { // If the child exists and it is not the same key that it started with
-                        mRef.child(received[0]).addValueEventListener(new ValueEventListener() { // Look for the key in firebase
-                            //   Query queryRef = mRef.equalTo(received[0]).limitToFirst(1);
-                            //         if (queryRef != null) { // If that key already exists in firebase, report that an alert should be displayed
-                            // If the user is trying to add or change data to a different existing key, display a message to the user
-                            //System.out.println(queryRef);
+                        mRef.child(received[0]).addListenerForSingleValueEvent(new ValueEventListener() { // Look for the key in firebase
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot != null) {
@@ -301,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 textView.setText("Item number '" + userSearch + "' does not exist.");
                                 textView.setTextColor(Color.RED);
+                                System.out.println("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
                             }
                         }
 
