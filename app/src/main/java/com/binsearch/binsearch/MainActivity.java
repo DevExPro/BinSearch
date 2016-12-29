@@ -364,12 +364,10 @@ public class MainActivity extends AppCompatActivity {
                 if (searchType == 0) {
                     Query queryRef = mRef.orderByKey().startAt(userSearch).endAt(userSearch + "\uf8ff").limitToFirst(3);
                     //Query queryRef = mRef.child("bin");
-                    System.out.println(query);
                     queryRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             int iteration = 0;
-                            System.out.println(userSearch);
                             for(DataSnapshot child : dataSnapshot.getChildren()) {
                                 ++iteration;
                                 if(iteration == 1){
